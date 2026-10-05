@@ -3,7 +3,7 @@ FileName=wuziqi.dev
 Name=wuziqi
 Type=0
 Ver=2
-UnitCount=3
+UnitCount=5
 IsCpp=1
 Compiler=-std=c++11_@@_-m64_@@_-Wall_@@_-Wextra_@@_-g_@@_
 CppCompiler=-std=c++11_@@_-m64_@@_-Wall_@@_-Wextra_@@_-g_@@_
@@ -41,6 +41,26 @@ Folder=
 
 [Unit3]
 FileName=board.h
+CompileCpp=1
+Compile=0
+Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+Folder=
+
+[Unit4]
+FileName=game.cpp
+CompileCpp=1
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+Folder=
+
+[Unit5]
+FileName=game.h
 CompileCpp=1
 Compile=0
 Link=0

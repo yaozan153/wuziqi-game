@@ -21,6 +21,7 @@
                 "-static",
                 "${workspaceFolder}/main.cpp",
                 "${workspaceFolder}/board.cpp",
+                "${workspaceFolder}/game.cpp",
                 "-o",
                 "${workspaceFolder}/wuziqi.exe",
                 "-lgraphics64",
