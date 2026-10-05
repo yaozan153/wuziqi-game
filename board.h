@@ -31,6 +31,8 @@ struct GameState // 把一局游戏的数据集中保存。
 
 // 在指定行列的交点上画棋子；仅负责绘图，不修改游戏数据。
 void drawPiece(int row, int col, Piece piece);
+bool mouseToBoard(int mouseX, int mouseY, int& row, int& col); // 准星和落子共用坐标换算。
+void drawCrosshair(int row, int col); // 在交点周围画青色四角准星。
 // 根据鼠标坐标尝试落子；成功返回 true，越界或位置被占用时返回 false。
 // & 表示引用：函数修改的就是调用者的 game，不是它的副本。
 bool placePiece(GameState& game, int mouseX, int mouseY);

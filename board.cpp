@@ -67,7 +67,7 @@ void drawBoard()
     {
         const int x = BOARD_LEFT + (starPoints[i][0] - 1) * CELL_SIZE;
         const int y = BOARD_TOP + (starPoints[i][1] - 1) * CELL_SIZE;
-        fillellipse(x, y, 3, 3); // 两个半径均为 5，画出实心圆点。
+        fillellipse(x, y, 3, 3); // 两个半径均为 3，画出实心圆点。
     }
 }
 
@@ -82,7 +82,28 @@ void drawPiece(int row, int col, Piece piece)
     putimage_withalpha(NULL, image, x - 18, y - 18);
 }
 
-bool placePiece(GameState& game, int mouseX, int mouseY)
+void drawCrosshair(int row, int col)
+{
+    const int x = BOARD_LEFT + col * CELL_SIZE;
+    const int y = BOARD_TOP + row * CELL_SIZE;
+    const int halfSize = 22; // 整体宽高为 44，微调大小可以改这里。
+    const int armLength = 14; // 每条短线的长度。
+    const int inner = halfSize - armLength;
+    setcolor(EGERGB(0, 150, 255));
+    setlinewidth(2);
+    // 四个直角的顶点靠近中心，短线向外伸出，与参考图方向一致。
+    for (int dx = -1; dx <= 1; dx += 2)
+        for (int dy = -1; dy <= 1; dy += 2)
+        {
+            line(x + dx * inner, y + dy * inner,
+                 x + dx * halfSize, y + dy * inner);
+            line(x + dx * inner, y + dy * inner,
+                 x + dx * inner, y + dy * halfSize);
+        }
+    setlinewidth(1); // 恢复线宽，避免下一帧的棋盘线变粗。
+}
+
+bool mouseToBoard(int mouseX, int mouseY, int& row, int& col)
 {
     // 最外侧交点向外允许点击半格，便于点击边缘棋子的位置。
     const int halfCell = CELL_SIZE / 2; // 半格是 20 像素。
@@ -96,8 +117,16 @@ bool placePiece(GameState& game, int mouseX, int mouseY)
     // 减去棋盘起点得到相对坐标，加半格再做整数除法，把位置归到最近的交点。
     // 例如 mouseX = 66：(66 - 28 + 20) / 40 = 1，落在第 1 列（x = 68）。
     // 整数除法会舍去小数；恰好在两交点中间时归到右侧或下侧交点。
-    const int col = (mouseX - BOARD_LEFT + halfCell) / CELL_SIZE;
-    const int row = (mouseY - BOARD_TOP + halfCell) / CELL_SIZE;
+    col = (mouseX - BOARD_LEFT + halfCell) / CELL_SIZE;
+    row = (mouseY - BOARD_TOP + halfCell) / CELL_SIZE;
+    return true;
+}
+
+bool placePiece(GameState& game, int mouseX, int mouseY)
+{
+    int row, col;
+    if (!mouseToBoard(mouseX, mouseY, row, col))
+        return false;
     if (game.board[row][col] != EMPTY) // 交点上已经有棋子。
         return false; // 不覆盖原棋子，也不改变当前玩家或棋步记录。
 
