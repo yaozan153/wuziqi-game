@@ -1,0 +1,49 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build wuziqi debug (ASCII path)",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/.vscode/build-debug.ps1"],
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "Build wuziqi (MinGW)",
+            "type": "process",
+            "command": "D:/Dev-Cpp/MinGW64/bin/g++.exe",
+            "args": [
+                "-std=c++11",
+                "-m64",
+                "-Wall",
+                "-Wextra",
+                "-g",
+                "-static",
+                "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/board.cpp",
+                "-o",
+                "${workspaceFolder}/wuziqi.exe",
+                "-lgraphics64",
+                "-lgdi32",
+                "-limm32",
+                "-lmsimg32",
+                "-lole32",
+                "-loleaut32",
+                "-lwinmm",
+                "-luuid",
+                "-mwindows"
+            ],
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": ["$gcc"],
+            "group": { "kind": "build", "isDefault": true }
+        },
+        {
+            "label": "Run wuziqi",
+            "type": "process",
+            "command": "${workspaceFolder}/wuziqi.exe",
+            "dependsOn": "Build wuziqi (MinGW)",
+            "options": { "cwd": "${workspaceFolder}" },
+            "problemMatcher": []
+        }
+    ]
+}

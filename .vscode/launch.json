@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug wuziqi (MinGW)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${env:TEMP}/wuziqi-vscode-debug/wuziqi.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${env:TEMP}/wuziqi-vscode-debug",
+            "sourceFileMap": {
+                "${env:TEMP}/wuziqi-vscode-debug": "${workspaceFolder}"
+            },
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "D:/Dev-Cpp/MinGW64/bin/gdb.exe",
+            "preLaunchTask": "Build wuziqi debug (ASCII path)"
+        }
+    ]
+}
