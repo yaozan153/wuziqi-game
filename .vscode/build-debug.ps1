@@ -5,6 +5,10 @@ New-Item -ItemType Directory -Path $debugDirectory -Force | Out-Null
 foreach ($name in @('main.cpp', 'board.cpp', 'board.h', 'game.cpp', 'game.h')) {
     Copy-Item -LiteralPath (Join-Path $projectDirectory $name) -Destination $debugDirectory -Force
 }
+# 调试编译保持菜单和模式文件夹结构，确保相对 include 路径有效。
+foreach ($folder in @('ui', 'modes', 'history')) {
+    Copy-Item -LiteralPath (Join-Path $projectDirectory $folder) -Destination $debugDirectory -Recurse -Force
+}
 # 调试程序也需要棋子素材，复制到调试程序所在目录。
 Copy-Item -LiteralPath (Join-Path $projectDirectory 'assets') -Destination $debugDirectory -Recurse -Force
 $buildTask = (Get-Content -Raw -LiteralPath (Join-Path $PSScriptRoot 'tasks.json') | ConvertFrom-Json).tasks |

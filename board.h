@@ -1,14 +1,23 @@
 #ifndef WUZIQI_BOARD_H
 #define WUZIQI_BOARD_H
 
-#include "game.h" // 绘图需要棋盘尺寸和棋子类型。
+#include "game.h"
 
-bool loadPieceImages(); // 开始游戏时加载棋子和木纹图片，成功返回 true。
-void freePieceImages(); // 退出前释放图片资源。
+const int CELL_SIZE = 40;
+const int BOARD_LEFT = 28;
+const int BOARD_TOP = 28;
+
+bool mouseToBoard(int mouseX, int mouseY, int& row, int& col);
+
+
+bool loadPieceImages(); 
+
+void freePieceImages();
+
 void drawBoard();
 
-// 在指定行列的交点上画棋子；仅负责绘图，不修改游戏数据。
-void drawPiece(int row, int col, Piece piece);
-void drawCrosshair(int row, int col); // 在交点周围画青色四角准星。
+void drawPiece(int row, int col, PieceColor piece);
+
+void drawCrosshair(int row, int col);
 
 #endif

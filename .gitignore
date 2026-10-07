@@ -1,0 +1,18 @@
+# Build outputs
+*.o
+*.obj
+*.exe
+*.dll
+*.pdb
+*.ilk
+
+# Local IDE state and generated makefile
+*.layout
+Makefile.win
+
+# Saved games
+records/
+
+# Temporary files
+*.tmp
+*.log
