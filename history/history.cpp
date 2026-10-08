@@ -13,7 +13,7 @@ bool HistoryScreen::canResume() const // 函数入口：只允许有棋步、未
            savedGame.moves.size() < BOARD_SIZE * BOARD_SIZE; // 执行 `savedGame.moves.size() < BOARD_SIZE * BOARD_SIZE`；调用相应对象的方法完成本步骤。
 }
 
-void HistoryScreen::refresh() // 函数入口：重置历史页面并扫描 .gmk 文件，以文件名倒序排列。
+void HistoryScreen::refresh() // 重置历史页面并扫描棋谱，按保存时间从新到旧排列。
 { // 开始上方函数、条件、循环或类型的作用域。
     files.clear(); moves.clear(); replay = GameState(); // 更新数据：`files.clear(); moves.clear(); replay = GameState()`；赋值后的状态供后续逻辑或绘图使用。
     filename.clear(); message.clear(); page = 0; playing = false; // 更新数据：`filename.clear(); message.clear(); page = 0; playing = false`；赋值后的状态供后续逻辑或绘图使用。
@@ -27,10 +27,16 @@ void HistoryScreen::refresh() // 函数入口：重置历史页面并扫描 .gmk
             message = L"无法读取棋谱文件夹"; // 更新数据：`message = L"无法读取棋谱文件夹"`；赋值后的状态供后续逻辑或绘图使用。
         return; // 提前结束当前无返回值函数，避免继续执行后续处理。
     }
-    do { if (!(entry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) files.push_back(entry.cFileName); } // 只收集 .gmk 普通文件名，跳过同名文件夹。
+    struct RecordEntry { std::wstring name; FILETIME savedAt; }; // 保存文件名及最后写入时间。
+    std::vector<RecordEntry> records; // 先保留时间信息，再生成页面的文件名列表。
+    do { if (!(entry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) records.push_back({entry.cFileName, entry.ftLastWriteTime}); } // 收集棋谱文件，跳过文件夹。
     while (FindNextFileW(search, &entry)); // 只要 `FindNextFileW(search, &entry))` 成立就继续处理；用于事件、连子或网络队列。
     FindClose(search); // 释放文件搜索句柄；参数为 `search)`。
-    std::sort(files.rbegin(), files.rend()); // 按文件名倒序排列；自定义名称按文字排序，不保证按保存时间先后。
+    std::sort(records.begin(), records.end(), [](const RecordEntry& a, const RecordEntry& b) { // 最新保存的棋谱排在前面。
+        const LONG order = CompareFileTime(&a.savedAt, &b.savedAt); // 比较文件最后写入时间。
+        return order != 0 ? order > 0 : a.name < b.name; // 时间相同时按文件名排序，保持确定的显示顺序。
+    }); // 完成时间排序。
+    for (const RecordEntry& record : records) files.push_back(record.name); // 填充回放列表。
 }
 
 void drawHistory(const HistoryScreen& history, int mouseX, int mouseY) // 函数入口：按 playing 决定画文件列表或复盘页面，续玩按钮依据完整存档状态。

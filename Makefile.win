@@ -1,0 +1,66 @@
+# Project: wuziqi
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = main.o board.o game.o menu.o match.o local.o human_ai.o ai.o online.o network.o record.o history.o
+LINKOBJ  = main.o board.o game.o menu.o match.o local.o human_ai.o ai.o online.o network.o record.o history.o
+LIBS     = -L"D:/Dev-Cpp/MinGW64/lib" -L"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows -m64 -static -lgraphics64 -lgdi32 -limm32 -lmsimg32 -lole32 -loleaut32 -lwinmm -luuid -lws2_32 -liphlpapi -mwindows
+INCS     = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"D:/Dev-Cpp/MinGW64/include" -I"D:/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = wuziqi.exe
+CXXFLAGS = $(CXXINCS) -std=c++11 -m64 -Wall -Wextra -g -MMD -MP
+CFLAGS   = $(INCS) -std=c++11 -m64 -Wall -Wextra -g
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+# 自动跟踪间接包含的头文件，避免联机会话布局改变后混用旧目标文件。
+-include $(OBJ:.o=.d)
+
+$(OBJ): Makefile.win
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp board.h game.h ui/menu.h ui/match.h modes/local/local.h modes/human_ai/human_ai.h modes/online/online.h history/history.h history/record.h
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+board.o: board.cpp board.h game.h
+	$(CPP) -c board.cpp -o board.o $(CXXFLAGS)
+
+game.o: game.cpp game.h
+	$(CPP) -c game.cpp -o game.o $(CXXFLAGS)
+
+menu.o: ui/menu.cpp ui/menu.h
+	$(CPP) -c ui/menu.cpp -o menu.o $(CXXFLAGS)
+
+local.o: modes/local/local.cpp modes/local/local.h game.h board.h ui/match.h ui/menu.h
+	$(CPP) -c modes/local/local.cpp -o local.o $(CXXFLAGS)
+
+human_ai.o: modes/human_ai/human_ai.cpp modes/human_ai/human_ai.h modes/human_ai/ai.h game.h board.h ui/menu.h ui/match.h
+	$(CPP) -c modes/human_ai/human_ai.cpp -o human_ai.o $(CXXFLAGS)
+
+ai.o: modes/human_ai/ai.cpp modes/human_ai/ai.h game.h
+	$(CPP) -c modes/human_ai/ai.cpp -o ai.o $(CXXFLAGS)
+
+online.o: modes/online/online.cpp modes/online/online.h modes/online/network.h game.h board.h ui/menu.h ui/match.h
+	$(CPP) -c modes/online/online.cpp -o online.o $(CXXFLAGS)
+
+match.o: ui/match.cpp ui/match.h ui/menu.h board.h game.h
+	$(CPP) -c ui/match.cpp -o match.o $(CXXFLAGS)
+
+network.o: modes/online/network.cpp modes/online/network.h game.h
+	$(CPP) -c modes/online/network.cpp -o network.o $(CXXFLAGS)
+
+record.o: history/record.cpp history/record.h game.h
+	$(CPP) -c history/record.cpp -o record.o $(CXXFLAGS)
+
+history.o: history/history.cpp history/history.h history/record.h game.h ui/menu.h ui/match.h
+	$(CPP) -c history/history.cpp -o history.o $(CXXFLAGS)
