@@ -90,7 +90,12 @@ namespace // 开启匿名命名空间，让内部辅助函数只在当前源文�
         case NetworkState::CONNECTING: return L"正在连接服务器"; // 处理 `NetworkState::CONNECTING: return L"正在连接服务器"` 对应的状态。
         case NetworkState::HANDSHAKING: return L"正在确认对局协议"; // 处理 `NetworkState::HANDSHAKING: return L"正在确认对局协议"` 对应的状态。
         case NetworkState::DISCONNECTED: return L"对方已断开连接"; // 处理 `NetworkState::DISCONNECTED: return L"对方已断开连接"` 对应的状态。
-        case NetworkState::FAILED: return L"连接失败或对局数据异常"; // 处理 `NetworkState::FAILED: return L"连接失败或对局数据异常"` 对应的状态。
+        case NetworkState::FAILED:
+            if (session.isHost && session.network.error().find("10048") != std::string::npos)
+                return L"创建失败：端口已占用，请关闭其他房间或占用程序";
+            if (session.isHost && session.network.error().find("10013") != std::string::npos)
+                return L"创建失败：系统禁止使用此端口";
+            return session.isHost ? L"创建房间失败，请查看下方原因" : L"连接失败或对局数据异常"; // 处理 `NetworkState::FAILED: return L"连接失败或对局数据异常"` 对应的状态。
         case NetworkState::CONNECTED: // 处理 `NetworkState::CONNECTED:` 对应的状态。
             if (session.localPiece == EMPTY) // 检查 `if (session.localPiece == EMPTY)`；条件成立时执行括号之后或下一行的处理。
                 return session.choicePending ? L"正在确认执棋颜色" : L"双方已入房，请选择黑白棋"; // 返回 `session.choicePending ? L"正在确认执棋颜色" : L"双方已入房，请选择黑白棋"`，将结果交给调用者。
@@ -111,7 +116,7 @@ void drawOnlineScreen(const OnlineSession& session, int mouseX, int mouseY) // �
                   session.localPiece == BLACK_PIECE ? L"你执黑，黑棋先手" : L"你执白，等待黑棋先手", // 条件表达式：`session.localPiece == BLACK_PIECE ? L"你执黑，黑棋先手" : L"你执白，等待黑棋先手",`；根据条件选择两个值之一。
                   status(session), canMove, mouseX, mouseY); // 将网络连接状态、选色状态及棋局状态转换为联机界面说明。
         setfont(14, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `14, 0, L"微软雅黑")`。
-        outtextxy(560, 275, L"联机对局 · 端口 8888"); // 在指定坐标绘制文字；参数为 `560, 275, L"联机对局 · 端口 8888")`。
+        outtextxy(560, 275, L"联机对局 · 端口 18888"); // 在指定坐标绘制文字；参数为 `560, 275, L"联机对局 · 端口 18888")`。
         if (!session.network.error().empty()) // 检查 `if (!session.network.error().empty())`；条件成立时执行括号之后或下一行的处理。
         { // 开始上方函数、条件、循环或类型的作用域。
             const std::string& error = session.network.error(); // 声明 error：错误原因；按右侧表达式初始化。
@@ -128,7 +133,7 @@ void drawOnlineScreen(const OnlineSession& session, int mouseX, int mouseY) // �
         setfont(22, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `22, 0, L"微软雅黑")`。
         outtextxy(200, 175, status(session)); // 在指定坐标绘制文字；参数为 `200, 175, status(session))`。
         setfont(18, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `18, 0, L"微软雅黑")`。
-        outtextxy(200, 225, session.isHost ? L"你是房主 · 端口 8888" : // 在指定坐标绘制文字；参数为 `200, 225, session.isHost ? L"你是房主 · 端口 8888" :`。
+        outtextxy(200, 225, session.isHost ? L"你是房主 · 端口 18888" : // 在指定坐标绘制文字；参数为 `200, 225, session.isHost ? L"你是房主 · 端口 18888" :`。
                   (session.network.state() == NetworkState::CONNECTED ? // 条件表达式：`(session.network.state() == NetworkState::CONNECTED ?`；根据条件选择两个值之一。
                    L"你已加入房间" : L"尚未加入房间，请等待连接确认")); // 承接上方表达式的参数、条件或初值：`L"你已加入房间" : L"尚未加入房间，请等待连接确认"))`。
         if (session.isHost) // 检查 `if (session.isHost)`；条件成立时执行括号之后或下一行的处理。

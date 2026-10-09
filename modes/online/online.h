@@ -18,8 +18,8 @@ struct OnlineSession // 定义 OnlineSession，集中组织相关数据。
     bool inRoom = false; // 声明 inRoom：是否已发起创建或加入房间；按右侧表达式初始化。
     bool isHost = false; // 声明 isHost：本机是否为房主；按右侧表达式初始化。
     bool choicePending = false; // 声明 choicePending：加入方是否正在等待房主确认颜色；按右侧表达式初始化。
-    bool create(unsigned short port = 8888); // 声明接口：重置会话、标记房主并调用网络监听。
-    bool join(unsigned short port = 8888); // 声明接口：网络层解析 IPv4 并非阻塞连接；联机业务层使用输入框 IP 加入房间。
+    bool create(unsigned short port = 18888); // 声明接口：重置会话、标记房主并调用网络监听。
+    bool join(unsigned short port = 18888); // 声明接口：网络层解析 IPv4 并非阻塞连接；联机业务层使用输入框 IP 加入房间。
     void reset(); // 声明接口：关闭联机连接并清空棋局和选色状态，保留输入的服务器 IP。
     void update(); // 声明接口：推进网络并按顺序处理选色与棋步，拒绝非法回合和错误步号。
     bool move(int row, int col); // 声明接口：仅本方回合允许落子，先加入发送队列成功后再更新棋盘。

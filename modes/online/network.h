@@ -20,8 +20,8 @@ public: // 以下成员可供外部调用。
     ~NetworkConnection(); // 执行 `~NetworkConnection()`；调用相应对象的方法完成本步骤。
     NetworkConnection(const NetworkConnection&) = delete; // 禁止复制连接对象，避免多个对象重复关闭同一个套接字。
     NetworkConnection& operator=(const NetworkConnection&) = delete; // 禁止复制连接对象，避免多个对象重复关闭同一个套接字。
-    bool host(unsigned short port = 8888); // 声明接口：独占指定端口监听一个玩家，并查询本机可用 IPv4 地址供加入方填写。
-    bool join(const std::string& ipv4, unsigned short port = 8888); // 声明接口：网络层解析 IPv4 并非阻塞连接；联机业务层使用输入框 IP 加入房间。
+    bool host(unsigned short port = 18888); // 声明接口：独占指定端口监听一个玩家，并查询本机可用 IPv4 地址供加入方填写。
+    bool join(const std::string& ipv4, unsigned short port = 18888); // 声明接口：网络层解析 IPv4 并非阻塞连接；联机业务层使用输入框 IP 加入房间。
     void poll(); // 声明接口：每帧推进连接、发送未发完数据、接收及拆出完整六字节消息。
     bool sendMove(int row, int col, int sequence); // 声明接口：校验坐标和步号，将六字节棋步消息加入发送队列，不代表对方已确认。
     bool sendColor(int piece, bool assignment); // 声明接口：将选色请求或房主确认加入发送队列，类型分别为 2 和 3。

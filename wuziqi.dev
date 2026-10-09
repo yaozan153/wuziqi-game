@@ -10,7 +10,8 @@ CppCompiler=-std=c++11_@@_-m64_@@_-Wall_@@_-Wextra_@@_-g_@@_
 Linker=-m64_@@_-static_@@_-lgraphics64_@@_-lgdi32_@@_-limm32_@@_-lmsimg32_@@_-lole32_@@_-loleaut32_@@_-lwinmm_@@_-luuid_@@_-lws2_32_@@_-liphlpapi_@@_-mwindows_@@_
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UseCustomMakefile=0
+UseCustomMakefile=1
+CustomMakefile=Makefile.win
 OverrideOutput=1
 OverrideOutputName=wuziqi.exe
 ExeOutput=

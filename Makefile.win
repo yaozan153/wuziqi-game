@@ -24,7 +24,7 @@ all: all-before $(BIN) all-after
 $(OBJ): Makefile.win
 
 clean: clean-custom
-	${RM} $(OBJ) $(BIN)
+	${RM} $(OBJ) $(OBJ:.o=.d) $(BIN)
 
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)

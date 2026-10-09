@@ -33,6 +33,7 @@ int main() // 独立测试入口：验证真实 TCP、IP 编辑、选色、同�
     assert(guest.serverIp == loopback && guest.ipCursor == 0); // 测试断言：要求 `guest.serverIp == loopback && guest.ipCursor == 0` 成立；失败立即终止测试。
     onlineKey(guest, 256 + 79); // 编辑 IPv4 输入框光标及数字点号，Enter 发起加入。
     assert(!onlineClick(host, 300, 220)); // 测试断言：要求 `!onlineClick(host, 300, 220` 成立；失败立即终止测试。
+    if (host.network.state() != NetworkState::LISTENING) std::cerr << host.network.error() << std::endl;
     assert(host.network.state() == NetworkState::LISTENING); // 测试断言：要求 `host.network.state() == NetworkState::LISTENING` 成立；失败立即终止测试。
     onlineKey(guest, 13); // 编辑 IPv4 输入框光标及数字点号，Enter 发起加入。
     waitFor(host, guest, [&] { return host.network.state() == NetworkState::CONNECTED && // 轮询两个测试会话，最多等三秒，断言预期条件已经成立。
@@ -102,6 +103,7 @@ int main() // 独立测试入口：验证真实 TCP、IP 编辑、选色、同�
     assert(host.create(port)); assert(guest.join(port)); // 测试断言：要求 `host.create(port)); assert(guest.join(port` 成立；失败立即终止测试。
     OnlineSession duplicateHost; // 声明 duplicateHost：本行使用的局部数据；参数或长度由本行给出。
     assert(!duplicateHost.create(port)); // 测试断言：要求 `!duplicateHost.create(port` 成立；失败立即终止测试。
+    assert(duplicateHost.network.error().find("10048") != std::string::npos); // 端口冲突必须保留明确的系统错误码。
     assert(!duplicateHost.inRoom); // 测试断言：要求 `!duplicateHost.inRoom` 成立；失败立即终止测试。
     waitFor(host, guest, [&] { return host.network.state() == NetworkState::CONNECTED && // 轮询两个测试会话，最多等三秒，断言预期条件已经成立。
                                     guest.network.state() == NetworkState::CONNECTED; }); // 执行 `guest.network.state() == NetworkState::CONNECTED; })`；调用相应对象的方法完成本步骤。

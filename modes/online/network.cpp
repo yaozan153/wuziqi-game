@@ -50,9 +50,18 @@ bool NetworkConnection::host(unsigned short port) // 函数入口：独占指定
     address.sin_family = AF_INET; // 更新数据：`address.sin_family = AF_INET`；赋值后的状态供后续逻辑或绘图使用。
     address.sin_addr.s_addr = htonl(INADDR_ANY); // 更新数据：`address.sin_addr.s_addr = htonl(INADDR_ANY)`；赋值后的状态供后续逻辑或绘图使用。
     address.sin_port = htons(port); // 更新数据：`address.sin_port = htons(port)`；赋值后的状态供后续逻辑或绘图使用。
-    if (bind(listener_, reinterpret_cast<sockaddr*>(&address), sizeof(address)) != 0 || // 检查 `if (bind(listener_, reinterpret_cast<sockaddr*>(&address), sizeof(address)) != 0 ||`；条件成立时执行括号之后或下一行的处理。
-        listen(listener_, 1) != 0) // 开始监听加入请求；参数为 `listener_, 1) != 0)`。
-    { reject("Cannot listen: port in use or unavailable"); return false; } // 拒绝连接并记录这里的错误原因，随后提前返回，防止继续使用异常连接。
+    if (bind(listener_, reinterpret_cast<sockaddr*>(&address), sizeof(address)) != 0)
+    {
+        const int error = WSAGetLastError(); // 在关闭套接字前保留系统错误码。
+        reject("Cannot bind port " + std::to_string(port) + " (Winsock " + std::to_string(error) + ")");
+        return false;
+    }
+    if (listen(listener_, 1) != 0)
+    {
+        const int error = WSAGetLastError();
+        reject("Cannot listen (Winsock " + std::to_string(error) + ")");
+        return false;
+    }
     state_ = NetworkState::LISTENING; // 更新数据：`state_ = NetworkState::LISTENING`；赋值后的状态供后续逻辑或绘图使用。
     // Query local interfaces without DNS or an external service.
     std::vector<INTERFACE_INFO> interfaces(16); // 声明 interfaces：本机网络接口信息列表；参数或长度由本行给出。
