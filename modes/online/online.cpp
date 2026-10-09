@@ -128,7 +128,7 @@ void drawOnlineScreen(const OnlineSession& session, int mouseX, int mouseY) // �
     if (session.inRoom) // 检查 `if (session.inRoom)`；条件成立时执行括号之后或下一行的处理。
     { // 开始上方函数、条件、循环或类型的作用域。
         setfont(34, 0, L"微软雅黑"); setbkmode(TRANSPARENT); // 设置后续文字的字体和字号；参数为 `34, 0, L"微软雅黑"); setbkmode(TRANSPARENT)`。
-        setcolor(EGERGB(245, 246, 248)); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248))`。
+        setcolor(EGERGB(45, 37, 26)); // 设置后续线条和文字颜色；参数为 `EGERGB(45, 37, 26))`。
         outtextxy(310, 95, L"联机房间"); // 在指定坐标绘制文字；参数为 `310, 95, L"联机房间")`。
         setfont(22, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `22, 0, L"微软雅黑")`。
         outtextxy(200, 175, status(session)); // 在指定坐标绘制文字；参数为 `200, 175, status(session))`。
@@ -191,7 +191,7 @@ void drawOnlineScreen(const OnlineSession& session, int mouseX, int mouseY) // �
         return; // 提前结束当前无返回值函数，避免继续执行后续处理。
     }
     setfont(34, 0, L"微软雅黑"); setbkmode(TRANSPARENT); // 设置后续文字的字体和字号；参数为 `34, 0, L"微软雅黑"); setbkmode(TRANSPARENT)`。
-    setcolor(EGERGB(245, 246, 248)); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248))`。
+    setcolor(EGERGB(45, 37, 26)); // 设置后续线条和文字颜色；参数为 `EGERGB(45, 37, 26))`。
     outtextxy(310, 95, L"联机对决"); // 在指定坐标绘制文字；参数为 `310, 95, L"联机对决")`。
     setfont(18, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `18, 0, L"微软雅黑")`。
     outtextxy(180, 155, L"创建房间无需填写 IP，创建后显示房主地址"); // 在指定坐标绘制文字；参数为 `180, 155, L"创建房间无需填写 IP，创建后显示房主地址")`。
@@ -215,7 +215,7 @@ void drawOnlineScreen(const OnlineSession& session, int mouseX, int mouseY) // �
         }
     }
     setfont(18, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `18, 0, L"微软雅黑")`。
-    setcolor(EGERGB(245, 246, 248)); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248))`。
+    setcolor(EGERGB(45, 37, 26)); // 设置后续线条和文字颜色；参数为 `EGERGB(45, 37, 26))`。
     outtextxy(180, 340, session.editingIp ? L"输入房主 IP，退格删除，Enter 加入" : L"填写房主创建房间后显示的 IP，然后加入"); // 在指定坐标绘制文字；参数为 `180, 340, session.editingIp ? L"输入房主 IP，退格删除，Enter 加入" : L"填写房主创建房间后显示的 IP，然后加入")`。
     drawButton(280, 385, 240, 48, L"加入房间", mouseX, mouseY); // 根据鼠标是否悬停设置按钮颜色，绘制圆角背景及居中文字。
     drawButton(280, 465, 240, 48, L"返回菜单", mouseX, mouseY); // 根据鼠标是否悬停设置按钮颜色，绘制圆角背景及居中文字。

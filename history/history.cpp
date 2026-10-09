@@ -58,7 +58,7 @@ void drawHistory(const HistoryScreen& history, int mouseX, int mouseY) // 函数
         outtextxy(28, 550, history.filename.c_str()); // 在指定坐标绘制文字；参数为 `28, 550, history.filename.c_str())`。
         return; // 提前结束当前无返回值函数，避免继续执行后续处理。
     }
-    setbkmode(TRANSPARENT); setcolor(EGERGB(245, 246, 248)); setfont(34, 0, L"微软雅黑"); // 设置文字背景透明方式；参数为 `TRANSPARENT); setcolor(EGERGB(245, 246, 248)); setfont(34, 0, L"微软雅黑")`。
+    setbkmode(TRANSPARENT); setcolor(EGERGB(45, 37, 26)); setfont(34, 0, L"微软雅黑"); // 设置文字背景透明方式；参数为 `TRANSPARENT); setcolor(EGERGB(45, 37, 26)); setfont(34, 0, L"微软雅黑")`。
     outtextxy(330, 50, L"历史棋谱"); // 在指定坐标绘制文字；参数为 `330, 50, L"历史棋谱")`。
     setfont(18, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `18, 0, L"微软雅黑")`。
     outtextxy(130, 105, L"点击棋谱打开回放；本地对局中可手动保存"); // 在指定坐标绘制文字；参数为 `130, 105, L"点击棋谱打开回放；本地对局中可手动保存")`。
@@ -68,11 +68,11 @@ void drawHistory(const HistoryScreen& history, int mouseX, int mouseY) // 函数
                    history.files[history.page * 5 + i].c_str(), mouseX, mouseY); // 执行 `history.files[history.page * 5 + i].c_str(), mouseX, mouseY)`；调用相应对象的方法完成本步骤。
     if (history.page > 0) drawButton(120, 445, 150, 44, L"上一页", mouseX, mouseY); // 检查 `if (history.page > 0) drawButton(120, 445, 150, 44, L"上一页", mouseX, mouseY)`；条件成立时执行括号之后或下一行的处理。
     if ((history.page + 1) * 5 < history.files.size()) drawButton(530, 445, 150, 44, L"下一页", mouseX, mouseY); // 检查 `if ((history.page + 1) * 5 < history.files.size()) drawButton(530, 445, 150, 44, L"下一页", mouseX, mouseY)`；条件成立时执行括号之后或下一行的处理。
-    setcolor(EGERGB(245, 246, 248)); setfont(18, 0, L"微软雅黑"); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248)); setfont(18, 0, L"微软雅黑")`。
+    setcolor(EGERGB(45, 37, 26)); setfont(18, 0, L"微软雅黑"); // 设置后续线条和文字颜色；参数为 `EGERGB(45, 37, 26)); setfont(18, 0, L"微软雅黑")`。
     const std::wstring count = L"共 " + std::to_wstring(history.files.size()) + L" 份棋谱"; // 声明 count：连续棋子数或复盘进度文字；按右侧表达式初始化。
     outtextxy(320, 457, count.c_str()); // 在指定坐标绘制文字；参数为 `320, 457, count.c_str())`。
     drawButton(280, 505, 240, 44, L"返回菜单", mouseX, mouseY); // 根据鼠标是否悬停设置按钮颜色，绘制圆角背景及居中文字。
-    setcolor(EGERGB(245, 246, 248)); setfont(16, 0, L"微软雅黑"); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248)); setfont(16, 0, L"微软雅黑")`。
+    setcolor(EGERGB(45, 37, 26)); setfont(16, 0, L"微软雅黑"); // 设置后续线条和文字颜色；参数为 `EGERGB(45, 37, 26)); setfont(16, 0, L"微软雅黑")`。
     outtextxy(120, 565, history.message.c_str()); // 在指定坐标绘制文字；参数为 `120, 565, history.message.c_str())`。
 }
 

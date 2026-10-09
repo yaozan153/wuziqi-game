@@ -18,7 +18,8 @@ namespace // 开启匿名命名空间，让内部辅助函数只在当前源文�
         fillellipse(x + width - radius - 1, y + height - radius - 1, radius, radius); // 绘制实心椭圆或圆形；参数为 `x + width - radius - 1, y + height - radius - 1, radius, radius)`。
     }
 
-    void centeredText(int centerX, int top, const wchar_t* text, int size) // 函数入口：设置字体和颜色，将文字以给定中心横坐标居中。
+    void centeredText(int centerX, int top, const wchar_t* text, int size,
+                      color_t color = EGERGB(45, 37, 26)) // 暖木色背景统一使用深棕色标题和说明文字。
     { // 开始上方函数、条件、循环或类型的作用域。
         setfont(size, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `size, 0, L"微软雅黑")`。
         if (size >= 40) // 检查 `if (size >= 40)`；条件成立时执行括号之后或下一行的处理。
@@ -31,7 +32,7 @@ namespace // 开启匿名命名空间，让内部辅助函数只在当前源文�
             setfont(&font); // 首页标题使用粗体，按钮文字保持普通字重。
         }
         setbkmode(TRANSPARENT); // 设置文字背景透明方式；参数为 `TRANSPARENT)`。
-        setcolor(EGERGB(245, 246, 248)); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248))`。
+        setcolor(color); // 使用指定的文字颜色，适应当前页面背景。
         outtextxy(centerX - textwidth(text) / 2, top, text); // 在指定坐标绘制文字；参数为 `centerX - textwidth(text) / 2, top, text)`。
     }
 }
@@ -46,19 +47,20 @@ void drawButton(int left, int top, int width, int height, // 函数入口：根�
 { // 开始上方函数、条件、循环或类型的作用域。
     const bool hover = insideButton(mouseX, mouseY, left, top, width, height); // 声明 hover：鼠标是否悬停在按钮内；按右侧表达式初始化。
     roundedFill(left, top, width, height, 14, // 用矩形与四个圆角拼出按钮背景。
-                hover ? EGERGB(107, 142, 170) : EGERGB(82, 89, 96)); // 条件表达式：`hover ? EGERGB(107, 142, 170) : EGERGB(82, 89, 96))`；根据条件选择两个值之一。
+                hover ? EGERGB(120, 160, 128) : EGERGB(105, 145, 113)); // 灰绿色纯色按钮，鼠标悬停时稍微提亮。
     roundedFill(left + 2, top + 2, width - 4, height - 4, 12, // 用矩形与四个圆角拼出按钮背景。
-                hover ? EGERGB(70, 80, 90) : EGERGB(55, 61, 67)); // 条件表达式：`hover ? EGERGB(70, 80, 90) : EGERGB(55, 61, 67))`；根据条件选择两个值之一。
+                hover ? EGERGB(120, 160, 128) : EGERGB(105, 145, 113)); // 内外填充使用相同颜色，形成纯色圆角按钮。
     setfont(24, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `24, 0, L"微软雅黑")`。
     setbkmode(TRANSPARENT); // 设置文字背景透明方式；参数为 `TRANSPARENT)`。
-    setcolor(EGERGB(245, 246, 248)); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248))`。
+    setcolor(EGERGB(255, 244, 180)); // 按参考图片使用浅奶黄色按钮文字。
     outtextxy(left + (width - textwidth(text)) / 2, // 在指定坐标绘制文字；参数为 `left + (width - textwidth(text)) / 2,`。
               top + (height - textheight(text)) / 2, text); // 执行 `top + (height - textheight(text)) / 2, text)`；调用相应对象的方法完成本步骤。
+    setcolor(EGERGB(45, 37, 26)); // 按钮内部保留浅色文字，绘制后恢复页面说明文字的深棕色。
 }
 
 void drawMenu(int mouseX, int mouseY) // 函数入口：绘制首页标题和五个入口按钮。
 { // 开始上方函数、条件、循环或类型的作用域。
-    centeredText(400, 185, L"五子棋游戏", 44); // 设置字体和颜色，将文字以给定中心横坐标居中。
+    centeredText(400, 185, L"五子棋游戏", 44, EGERGB(45, 37, 26)); // 暖木色背景配深棕色标题，保持文字清晰。
     const wchar_t* labels[] = {L"人机对决", L"本地对决", L"联机对决", L"历史棋谱", L"退出"}; // 声明 labels：菜单按钮文字数组；按右侧表达式初始化。
     for (int i = 0; i < 5; i++) // 循环推进：`int i = 0; i < 5; i++)`；逐项处理棋格、方向、字符或列表元素。
         drawButton(280, 266 + i * 58, 240, 48, labels[i], mouseX, mouseY); // 根据鼠标是否悬停设置按钮颜色，绘制圆角背景及居中文字。

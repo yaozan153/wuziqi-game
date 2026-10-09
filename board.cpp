@@ -101,6 +101,19 @@ void drawPiece(int row, int col, PieceColor piece)
     putimage_withalpha(NULL, image, x - PIECE_IMAGE_HALF, y - PIECE_IMAGE_HALF); 
 } 
 
+void drawLastMoveMarker(int row, int col) // 绘制最后一步标记，供所有对局与复盘共用。
+{
+    const int x = BOARD_LEFT + col * CELL_SIZE; // 将棋子列号转换为中心横坐标。
+    const int y = BOARD_TOP + row * CELL_SIZE; // 将棋子行号转换为中心纵坐标。
+    const int radius = 6; // 红圈半径为 6 像素，保持在棋子内部。
+    const color_t previousColor = getcolor(); // 保存原来的画笔颜色，避免影响后续绘图。
+    setcolor(EGERGB(255, 0, 0)); // 使用红色，黑棋和白棋上都能看到标记。
+    setlinestyle(SOLID_LINE, 0, 2); // 使用 2 像素宽的实线绘制红圈。
+    circle(x, y, radius); // 绘制空心圆，保留圆内的棋子纹理。
+    setlinestyle(SOLID_LINE, 0, 1); // 恢复项目默认的 1 像素实线。
+    setcolor(previousColor); // 恢复原来的画笔颜色。
+}
+
 void drawCrosshair(int row, int col)
 {
     const int x = BOARD_LEFT + col * CELL_SIZE;

@@ -11,7 +11,7 @@ using namespace ege; // 允许直接使用该命名空间中的名称，省略 e
 void drawHumanAiChoice(int mouseX, int mouseY) // 函数入口：绘制玩家选黑、选白及返回菜单按钮。
 { // 开始上方函数、条件、循环或类型的作用域。
     setbkmode(TRANSPARENT); // 设置文字背景透明方式；参数为 `TRANSPARENT)`。
-    setcolor(EGERGB(245, 246, 248)); // 设置后续线条和文字颜色；参数为 `EGERGB(245, 246, 248))`。
+    setcolor(EGERGB(45, 37, 26)); // 设置后续线条和文字颜色；参数为 `EGERGB(45, 37, 26))`。
     setfont(36, 0, L"微软雅黑"); // 设置后续文字的字体和字号；参数为 `36, 0, L"微软雅黑")`。
     const wchar_t* title = L"请选择你的棋子"; // 声明 title：标题文字或处理后的存档名称；按右侧表达式初始化。
     outtextxy(400 - textwidth(title) / 2, 165, title); // 在指定坐标绘制文字；参数为 `400 - textwidth(title) / 2, 165, title)`。

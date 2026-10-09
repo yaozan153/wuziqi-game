@@ -18,6 +18,8 @@ void drawBoard();
 
 void drawPiece(int row, int col, PieceColor piece);
 
+void drawLastMoveMarker(int row, int col); // 在最后落下的棋子中心绘制小红圈。
+
 void drawCrosshair(int row, int col);
 
 #endif

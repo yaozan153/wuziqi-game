@@ -190,8 +190,7 @@ int main()
 
         const bool inMatch = screen == Screen::LOCAL || screen == Screen::HUMAN_AI || // 声明 inMatch：当前是否是可显示胜利提示的对局页面；按右侧表达式初始化。
                              (screen == Screen::ONLINE && online.localPiece != EMPTY); // 执行 `(screen == Screen::ONLINE && online.localPiece != EMPTY)`；调用相应对象的方法完成本步骤。
-        setbkcolor(inMatch || (screen == Screen::HISTORY && history.playing) // 设置绘图背景色；参数为 `inMatch || (screen == Screen::HISTORY && history.playing)`。
-                   ? EGERGB(244, 199, 122) : EGERGB(37, 40, 43)); // 条件表达式：`? EGERGB(244, 199, 122) : EGERGB(37, 40, 43))`；根据条件选择两个值之一。
+        setbkcolor(EGERGB(244, 199, 122)); // 所有页面统一使用暖木色纯色背景。
         cleardevice(); // 清空当前绘图目标；参数为 `)`。
         if (screen == Screen::MENU) // 检查 `if (screen == Screen::MENU)`；条件成立时执行括号之后或下一行的处理。
             drawMenu(mouseX, mouseY); // 绘制首页标题和五个入口按钮。

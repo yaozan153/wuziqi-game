@@ -19,6 +19,11 @@ void drawMatch(const GameState& game, const wchar_t* title, const wchar_t* descr
     drawBoard(); // 先画木纹，再绘制十三条横竖网格和五个星位。
     for (const Move& move : game.moves) // 循环推进：`const Move& move : game.moves)`；逐项处理棋格、方向、字符或列表元素。
         drawPiece(move.row, move.col, move.piece); // 根据棋色选图片，将透明棋子居中画到交点。
+    if (!game.moves.empty()) // 空棋盘不显示标记，也避免读取不存在的最后一步。
+    {
+        const Move& lastMove = game.moves.back(); // 悔棋或复盘后，自动取当前棋局的最后一步。
+        drawLastMoveMarker(lastMove.row, lastMove.col); // 棋子画好后叠加红圈，每帧只标记一颗棋子。
+    }
     int row, col; // 声明 row：棋盘行号；参数或长度由本行给出。
     if (canMove && game.winner == EMPTY && mouseToBoard(mouseX, mouseY, row, col) // 检查 `if (canMove && game.winner == EMPTY && mouseToBoard(mouseX, mouseY, row, col)`；条件成立时执行括号之后或下一行的处理。
         && game.board[row][col] == EMPTY) // 继续上方条件：`&& game.board[row][col] == EMPTY)`；&& 要求同时满足，|| 表示任一成立。
